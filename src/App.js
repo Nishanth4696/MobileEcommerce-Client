@@ -1,5 +1,6 @@
 import './App.css';
 import {createContext, useEffect, useState} from 'react';
+import { API_URL } from './GlobalConstants';
 
 
 const cartCtx = createContext()
@@ -34,14 +35,14 @@ function PhoneList(){
   const [mobiles, setMobiles]= useState([]);
 
   useEffect(()=> {
-    fetch('http://localhost:9000/mobile')
+    fetch(`${API_URL}/mobile`)
     .then((data) => data.json())
     .then((mbs)=> setMobiles(mbs))
   },[])
  
   return (
     <div className="phone-list-container">
-      {mobiles.map((mobile)=> <Phone mobile={mobile}/>)}
+      {mobiles.map((mobile)=> <Phone key={mobile._id} mobile={mobile}/>)}
       
     </div>
   );
