@@ -1,9 +1,9 @@
 import './App.css';
-import {createContext, useEffect, useState} from 'react';
+import { useEffect, useState} from 'react';
 import { API_URL } from './GlobalConstants';
 
 
-const cartCtx = createContext()
+// const cartCtx = createContext()
 
 function App() {
   // const [cart, setCart] = useState([]);
