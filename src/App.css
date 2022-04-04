@@ -45,3 +45,38 @@ box-shadow: 9px 4px 9px 3px rgba(0,0,0,0.76);
   margin-bottom: 20px;
 
 }
+.cart-Quantity > span{
+color: grey;
+font-size: 14px;
+}
+
+.cart-container{
+  display: flex;
+  background-color: orange;
+  text-align: left;
+ width: 100%;
+  border-radius: 10px;
+}
+
+.cart-image{
+  margin: 10px;
+  height: 240px;
+  width: 350px;
+  object-fit: contain;
+}
+
+.cart-company{
+  
+  color:grey;
+  margin-top: 0px;
+}
+
+.cart-list > button{
+text-align: right;
+}
+
+.cart-checkout{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
