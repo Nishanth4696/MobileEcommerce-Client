@@ -5,44 +5,26 @@ import { API_URL } from './GlobalConstants';
 
 const cartCtx = createContext();
 
-const initial_Cart= [
-  {
-    "_id":"624ab2606128df35980277ad",
-    "model":"OnePlus 9 5G",
-    "img":"https://m.media-amazon.com/images/I/61fy+u9uqPL._SX679_.jpg",
-    "company":"Oneplus",
-    "qty":2
-  },
-  {
-    "_id":"624ab2606128df35980277ae",
-    "model":"Iphone 13 mini",
-    "img":"https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-mini-blue-select-2021?wid=470&hei=556&fmt=jpeg&qlt=95&.v=1645572315986",
-    "company":"Apple",
-    "qty":4
-  }
-];
+const initial_Cart= [];
 
 function App() {
   const [cart, setCart] = useState(initial_Cart);
+
+  useEffect(()=>{
+    fetch(`${API_URL}/cart`)
+    .then((data) =>data.json())
+    .then((latestCart) => setCart(latestCart))
+  },[])
 
   const updateCart = ({mobile, action})=> {
 
     const entireCart=[];
 
-    if(action ==='add'){
-      const updateItem = cart.find(item => item._id === mobile._id)
-      if(updateItem){
-
-      }
-      else{
-        setCart([...cart, {...mobile, qty:1}]);
-      }
-    }
-      fetch(`${API_URL}/cart`, 
+    fetch(`${API_URL}/cart`, 
       {
-        method:'POST',
-        body:JSON.stringify(entireCart),
-        headers:{contentType:'application/json'},  
+        method:'PUT',
+        body:JSON.stringify(mobile),
+        headers:{"Content-Type": "application/json"},  
       })
       .then((data) =>data.json())
       .then((latestCart) => setCart(latestCart))
@@ -76,14 +58,16 @@ function Cart(){
 }
 
 function CartItem({mobile}){
-  
+  const [cart, updateCart] = useContext(cartCtx);
   return(
     <div className="cart-container">
       <img src={mobile.img} alt={mobile.model} className='cart-image'/>
       <div>
         <h2 className='cart-name'>{mobile.model}</h2>
         <p className='cart-company'>{mobile.company}</p>
-        <p className='cart-Quantity'><span>Quantity: </span>{mobile.qty}</p>
+        
+        <p className='cart-Quantity'><span>price: </span>{mobile.price}</p>
+        <button>➖</button>  {mobile.qty}  <button onClick={()=> updateCart({mobile, action:'add'})}>➕</button>
       </div>
       
     </div>
