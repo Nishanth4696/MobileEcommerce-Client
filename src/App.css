@@ -47,7 +47,11 @@ box-shadow: 9px 4px 9px 3px rgba(0,0,0,0.76);
 }
 .cart-Quantity > span{
 color: grey;
-font-size: 14px;
+font-size: 20px;
+}
+
+.CartBar{
+  margin-right: auto;
 }
 
 .cart-container{
@@ -75,8 +79,33 @@ font-size: 14px;
 text-align: right;
 }
 
+.cart-list {
+  width: 100vw;
+  }
+  
 .cart-checkout{
   display: flex;
+  flex-direction: column;
   justify-content: flex-end;
   margin-top: 20px;
+  margin-left: auto;
+  width: 200px;
+  padding: 40px;
 }
+
+.phone-price{
+  font-size: 24px;
+  
+}
+
+.cart-Total > span{
+  color: grey;
+  font-size: 25px;
+  }
+
+  .cart-Total{
+    margin-left: auto;
+    margin-top: auto;
+    padding: 40px;
+    font-size: 24px;
+  }
