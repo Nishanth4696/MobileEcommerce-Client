@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useFormik } from "formik";
+import './App.css'
 import * as yup from 'yup';
 import { API_URL} from './GlobalConstants';
 
@@ -70,7 +71,7 @@ function UpdateMobile({mobile}){
       method:"PUT",
       body:JSON.stringify(updateMobile),
       headers:{'Content-Type':'application/json'},
-    }).then(() => navigate("/"))
+    }).then(() => navigate("/product"))
     
 
   
@@ -86,7 +87,7 @@ function UpdateMobile({mobile}){
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the model'
-        variant="standard" 
+        variant="outlined" 
         error={formik.errors.model && formik.touched.model}
         helperText={formik.errors.model && formik.touched.model && formik.errors.model}/>
 
@@ -99,7 +100,7 @@ function UpdateMobile({mobile}){
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the img'        
-        variant="standard" 
+        variant="outlined" 
         error={formik.errors.img && formik.touched.img}
         helperText={formik.errors.img && formik.touched.img && formik.errors.img}/>
         
@@ -111,7 +112,7 @@ function UpdateMobile({mobile}){
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the company'       
-        variant="standard"
+        variant="outlined"
         error={formik.errors.company && formik.touched.company}
         helperText={formik.errors.company && formik.touched.company && formik.errors.company} />
         
@@ -123,7 +124,7 @@ function UpdateMobile({mobile}){
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the price'
-        variant="standard" 
+        variant="outlined" 
         error={formik.errors.price && formik.touched.price}
         helperText={formik.errors.price && formik.touched.price && formik.errors.price}/>
         
@@ -131,7 +132,7 @@ function UpdateMobile({mobile}){
 
 
 
-      <Button type='submit' variant="outlined" >Save</Button>
+      <Button type='submit' variant="contained" style={{width:'200px',margin:'auto'}} >Save</Button>
 
     </form>
 

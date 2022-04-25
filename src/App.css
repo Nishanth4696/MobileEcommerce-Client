@@ -3,14 +3,21 @@
 }
 
 body{
-  background-color: whitesmoke;
+  background-color: rgb(125, 214, 250);
   font-family:  Roboto;
-  margin: 16px;
+  
+}
+
+.add-mobile-form{
+  display: flex;
+  flex-direction: column;
+  gap:20px;
+  margin: 30px;
 }
 
 .phone-container{
 background-color: white;
-width: 450px;
+width: 400px;
 margin: 20px;
 border-radius: 12px;
 overflow: hidden; 
@@ -18,6 +25,23 @@ box-shadow: 9px 4px 9px 3px rgba(0,0,0,0.76);
 -webkit-box-shadow: 9px 4px 9px 3px rgba(0,0,0,0.76);
 -moz-box-shadow: 9px 4px 9px 3px rgba(0,0,0,0.76);
 
+}
+
+.mobile-img{
+  height: 450px;
+  width: 450px;
+  margin: 30px;
+}
+.mobile-specs{
+  border: 5px solid black;
+  width: min-content;
+  min-width: 1000px;
+  
+  height: min-content;
+  display: flex;
+margin: auto;
+margin-top: 80px;
+  outline: 5px;
 }
 
 .phone-company{
@@ -28,8 +52,8 @@ box-shadow: 9px 4px 9px 3px rgba(0,0,0,0.76);
 
 .phone-image{
   margin: 10px;
-  height: 450px;
-  width: 450px;
+  height: 350px;
+  width: 350px;
   object-fit: contain;
 }
 
@@ -109,3 +133,8 @@ text-align: right;
     padding: 40px;
     font-size: 24px;
   }
+
+.homeimage{
+  height: 100vh;
+  width:100vw;
+}

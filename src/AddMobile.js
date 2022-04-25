@@ -6,6 +6,8 @@ import { useFormik } from "formik";
 import * as yup from 'yup';
 import { API_URL} from './GlobalConstants';
 
+
+
 const formValidationSchema= yup.object({
   model:yup
       .string()
@@ -22,8 +24,11 @@ const formValidationSchema= yup.object({
  
 })
 
+
+
 export function AddMobile() { 
   const navigate = useNavigate();
+
 
   const formik = useFormik({
     initialValues: {model:'', img:'', company:'',price:''},
@@ -48,13 +53,13 @@ export function AddMobile() {
         body:JSON.stringify(newMobile),
         headers:{'Content-Type':'application/json'},
       })
-      .then(() =>navigate("/"))
+      .then(() =>navigate("/product"))
   };
 
   
   return (
 
-    <form  onSubmit={formik.handleSubmit} className='add-movie-form'>
+    <form  onSubmit={formik.handleSubmit} className='add-mobile-form'>
       <TextField
         id="model"
         name="model"
@@ -62,7 +67,7 @@ export function AddMobile() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the model'
-        variant="standard" 
+        variant="outlined" 
         error={formik.errors.model && formik.touched.model}
         helperText={formik.errors.model && formik.touched.model && formik.errors.model}/>
 
@@ -75,7 +80,7 @@ export function AddMobile() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the img'        
-        variant="standard" 
+        variant="outlined" 
         error={formik.errors.img && formik.touched.img}
         helperText={formik.errors.img && formik.touched.img && formik.errors.img}/>
         
@@ -87,7 +92,7 @@ export function AddMobile() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the company'       
-        variant="standard"
+        variant="outlined"
         error={formik.errors.company && formik.touched.company}
         helperText={formik.errors.company && formik.touched.company && formik.errors.company} />
         
@@ -99,7 +104,7 @@ export function AddMobile() {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         label='Enter the price'
-        variant="standard" 
+        variant="outlined" 
         error={formik.errors.price && formik.touched.price}
         helperText={formik.errors.price && formik.touched.price && formik.errors.price}/>
         
@@ -107,7 +112,8 @@ export function AddMobile() {
 
 
 
-      <Button variant="outlined" type='submit'>Add</Button>
+      <Button variant="contained" style={{width:'200px',margin:'auto'}} type='submit'>Add</Button>
+       
 
     </form>
 
