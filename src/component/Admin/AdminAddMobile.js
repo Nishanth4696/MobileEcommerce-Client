@@ -1,13 +1,13 @@
+// import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useState } from 'react';
 import { useFormik } from "formik";
-import './App.css'
 import * as yup from 'yup';
-import { API_URL} from './GlobalConstants';
+import { API_URL} from '../../GlobalConstants';
+import { Navbar } from './Navbar';
+
+
 
 const formValidationSchema= yup.object({
   model:yup
@@ -26,60 +26,43 @@ const formValidationSchema= yup.object({
 })
 
 
-export function EditMobile() {
-    const { id } = useParams();
-    
-    const [mobile, setMobile] = useState(null);
 
-    useEffect(() => {
-      fetch(`${API_URL}/mobilelist/${id}`,{method:"GET"})
-      .then((data) => data.json())
-      .then((mv) => setMobile(mv))
-      
-    },[id])
-   
- return mobile ? <UpdateMobile mobile={mobile}  /> : ""; 
- 
-}
+export function AdminAddMobile() { 
+  const navigate = useNavigate();
 
-function UpdateMobile({mobile}){
-  
+
   const formik = useFormik({
-    initialValues: {
-      model: mobile.model,
-      img: mobile.img,
-      company: mobile.company,
-      price: mobile.price,
-      },
+    initialValues: {model:'', img:'', company:'',price:''},
     // validate: validateForm,
     validationSchema: formValidationSchema,
-    onSubmit: (updateMobile) => {
-      console.log("onSumbit", updateMobile)
-      editMobile(updateMobile);
+    onSubmit: (newMobile) => {
+      console.log("onSumbit", newMobile)
+      addMobile(newMobile);
     }
   });
-  
-  
-  const navigate = useNavigate();
-  const editMobile = (updateMobile) => {
 
-   
-    
-    
-    fetch(`${API_URL}/mobilelist/${mobile._id}`,
-    {
-      method:"PUT",
-      body:JSON.stringify(updateMobile),
-      headers:{'Content-Type':'application/json'},
-    }).then(() => navigate("/product"))
-    
+  const addMobile = (newMobile) => {
 
-  
+    console.log("adding");
+    
+    console.log(newMobile);
+    // setMovies([...Movies, newMobile]); 
+      fetch(`${API_URL}/mobilelist`,
+      {
+               
+        method:"POST",
+        body:JSON.stringify(newMobile),
+        headers:{'Content-Type':'application/json'},
+      })
+      .then(() =>navigate("/admin/product"))
   };
 
+  
   return (
 
-    <form onSubmit={formik.handleSubmit} className='add-mobile-form'>
+    <section>
+    <Navbar/>
+    <form  onSubmit={formik.handleSubmit} className='add-mobile-form'>
       <TextField
         id="model"
         name="model"
@@ -93,7 +76,7 @@ function UpdateMobile({mobile}){
 
 
       <TextField
-        className='add-mobile-input'
+        className='add-movie-input'
         id="img"
         name="img"
         value={formik.values.img}
@@ -132,9 +115,11 @@ function UpdateMobile({mobile}){
 
 
 
-      <Button type='submit' variant="contained" style={{width:'200px',margin:'auto'}} >Save</Button>
+      <Button variant="contained" style={{width:'200px',margin:'auto'}} type='submit'>Add</Button>
+       
 
     </form>
-
+    </section>
   );
 }
+

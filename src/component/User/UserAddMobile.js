@@ -4,7 +4,8 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from "formik";
 import * as yup from 'yup';
-import { API_URL} from './GlobalConstants';
+import { API_URL} from '../../GlobalConstants';
+import { Navbar } from '../User/Navbar';
 
 
 
@@ -26,7 +27,7 @@ const formValidationSchema= yup.object({
 
 
 
-export function AddMobile() { 
+export function UserAddMobile() { 
   const navigate = useNavigate();
 
 
@@ -53,12 +54,14 @@ export function AddMobile() {
         body:JSON.stringify(newMobile),
         headers:{'Content-Type':'application/json'},
       })
-      .then(() =>navigate("/product"))
+      .then(() =>navigate("/user/product"))
   };
 
   
   return (
 
+    <section>
+    <Navbar/>
     <form  onSubmit={formik.handleSubmit} className='add-mobile-form'>
       <TextField
         id="model"
@@ -116,7 +119,7 @@ export function AddMobile() {
        
 
     </form>
-
+    </section>
   );
 }
 

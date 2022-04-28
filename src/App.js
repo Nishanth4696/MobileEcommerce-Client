@@ -1,54 +1,104 @@
 import './App.css';
 import {createContext} from 'react';
 import { API_URL } from './GlobalConstants';
-import { Navbar } from './Navbar';
-import { useNavigate } from 'react-router-dom';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit'
-import {  useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useContext } from "react";
+import {Route, Routes} from "react-router-dom"
+import LandingPage from './component/LandingPage';
+import Login from './component/pages/Login'
+
+
+import { AdminHome } from './component/Admin/AdminHome';
+import { AdminAddMobile} from './component/Admin/AdminAddMobile'
+import { AdminEditMobile } from './component/Admin/AdminEditMobile';
+import { AdminPhoneList } from './component/Admin/AdminPhoneList';
+import { AdminCart } from './component/Admin/AdminCart';
+import { AdminMobileDetails } from './component/Admin/AdminMobileDetails';
+
+import { UserHome } from './component/User/UserHome';
+import { UserAddMobile} from './component/User/UserAddMobile'
+import { UserEditMobile } from './component/User/UserEditMobile';
+import { UserPhoneList } from './component/User/UserPhoneList';
+import { UserCart } from './component/User/UserCart';
+import { UserMobileDetails } from './component/User/UserMobileDetails';
 
 
 
-const cartCtx = createContext();
 
-const currencyFormatter = (number)=> new Intl.NumberFormat('en-IN', {style: "currency", currency:'INR'}).format(number);
+export const cartCtx = createContext();
+
+export const currencyFormatter = (number)=> new Intl.NumberFormat('en-IN', {style: "currency", currency:'INR'}).format(number);
 
 const initial_Cart= [];
 
 function App() {
-  const [cart, setCart] = useState(initial_Cart); 
+  const [usercart, setUserCart] = useState(initial_Cart); 
+  const [admincart, setAdminCart] = useState(initial_Cart); 
 
   useEffect(()=>{
-    fetch(`${API_URL}/cart`)
+    fetch(`${API_URL}/cart/user`)
     .then((data) =>data.json())
-    .then((latestCart) => setCart(latestCart))
+    .then((latestCart) => setUserCart(latestCart))
+  },[])
+
+  useEffect(()=>{
+    fetch(`${API_URL}/cart/admin`)
+    .then((data) =>data.json())
+    .then((latestCart) => setAdminCart(latestCart))
   },[])
 
 
   const updateCart = ({mobile, action})=> {
 
-    const entireCart=[];
+    
 
-    fetch(`${API_URL}/cart?type=${action}`, 
+    fetch(`${API_URL}/cart/user?type=${action}`, 
       {
         method:'PUT',
         body:JSON.stringify(mobile),
         headers:{"Content-Type": "application/json"},  
       })
       .then((data) =>data.json())
-      .then((latestCart) => setCart(latestCart))
+      .then((latestCart) => setUserCart(latestCart))
+
+      fetch(`${API_URL}/cart/admin?type=${action}`, 
+      {
+        method:'PUT',
+        body:JSON.stringify(mobile),
+        headers:{"Content-Type": "application/json"},  
+      })
+      .then((data) =>data.json())
+      .then((latestCart) => setAdminCart(latestCart))
     }
 
-    const totalQty = cart.map((item) => item.qty).reduce((sum, qty) => sum + qty, 0)
+    
+    const usertotalQty = usercart.map((item) => item.qty).reduce((sum, qty) => sum + qty, 0)
+    const admintotalQty = admincart.map((item) => item.qty).reduce((sum, qty) => sum + qty, 0)
   return(
     <div className='App'>
-        <cartCtx.Provider value={[cart, updateCart, setCart]} >
-          <Navbar totalQty={totalQty}/>
+        <cartCtx.Provider value={[usercart,admincart, updateCart, setUserCart,setAdminCart,usertotalQty,admintotalQty ]} >
+          
+          <Routes>
+
+            {/* Admin */}
+        <Route path="/"  element={<LandingPage />}/>
+        <Route path="/login"  element={<Login />}/>
+
+        <Route path="/admin"  element={<AdminHome />}/>
+        <Route path="/admin/product"  element={<AdminPhoneList />}/>
+        <Route path="/admin/cart"  element={<AdminCart />}/>
+        <Route path="/admin/phonedetails/:id"  element={<AdminMobileDetails />}/>
+        <Route path="/admin/addmobile"  element={<AdminAddMobile />}/>
+        <Route path="/admin/editmobile/edit/:id"  element={<AdminEditMobile />}/>
+
+            {/* User */}
+            <Route path="/"  element={<LandingPage />}/>
+        <Route path="/user"  element={<UserHome />}/>
+        <Route path="/user/product"  element={<UserPhoneList />}/>
+        <Route path="/user/cart"  element={<UserCart />}/>
+        <Route path="/user/phonedetails/:id"  element={<UserMobileDetails />}/>
+        <Route path="/user/addmobile"  element={<UserAddMobile />}/>
+        <Route path="/user/editmobile/edit/:id"  element={<UserEditMobile />}/>
+      </Routes>
            
             
         </cartCtx.Provider>
@@ -63,193 +113,5 @@ function App() {
 
 
 
-
-export function PhoneList(){
-  const [mobiles, setMobiles]= useState([]);
-
-  const getMobiles = () =>{
-    fetch(`${API_URL}/mobilelist`)
-    .then((data) => data.json())
-    .then((mbs)=> setMobiles(mbs))
-  }
-  useEffect(getMobiles,[])
-
-  const deleteMobile = (id) =>{
-    fetch(`${API_URL}/mobilelist/${id}`,{ method:"DELETE" })
-    .then(() => getMobiles());
-  }
- 
-  return (
-    <div className="phone-list-container">
-       
-      
-      {mobiles.map((mobile)=> <Phone key={mobile._id} mobile={mobile} deleteMobile={deleteMobile}/>)}
-     
-    </div>
-    
-  );
-}
-
-function Phone({mobile, deleteMobile}){
-  const [cart, updateCart] = useContext(cartCtx);
-  const navigate = useNavigate();
-  return(
-    <div className="phone-container" >
-      <img src={mobile.img} alt={mobile.model} className='phone-image' onClick={()=>navigate(`/phonedetails/${mobile._id}`)}/>
-      <h2 className='phone-name'>{mobile.model}</h2>
-      <p className='phone-company'>{mobile.company}</p>
-      <h2 className='phone-price'>{currencyFormatter(mobile.price)}</h2>
-
-      <div>
-      <button className='phone-cart' onClick={()=> updateCart({mobile, action:'increment'})} style={{fontSize:'20px'}}>Add to Cart</button>
-     
-              
-            
-             
-              <IconButton 
-                onClick={() =>{ navigate("/editmobile/edit/" + mobile._id)
-                 
-                }} 
-                style={{ marginLeft:"auto" }}
-                className="movie-show-button"
-                  aria-label="delete" 
-                  color="primary"
-                  >
-                    <EditIcon style={{fontSize:'35px',marginLeft:'auto'}}/>
-                </IconButton>
-
-                <IconButton 
-                onClick={() =>deleteMobile(mobile._id)}
-                  className="mobile-show-button"
-                  aria-label="delete" 
-                  color="error"
-                  >
-                    <DeleteIcon style={{fontSize:'35px'}}/>
-                </IconButton>
-                </div>
-                
-    </div>
-  );
-}
-
-
-
-export function Cart(){
-  const [cart, updateCart, setCart] = useContext(cartCtx);
-        const navigate = useNavigate();
-
-  useEffect(()=>{
-    fetch(`${API_URL}/cart`)
-    .then((data) =>data.json())
-    .then((latestCart) => setCart(latestCart))
-  },[])
-
-  const total = cart.map((item) => item.qty * item.price).reduce((sum, item) => sum + item, 0)
-  
-  const CheckOut = ()=> {
-
-   
-
-    fetch(`${API_URL}/checkout`, 
-      {
-        method:'POST',
-        body:JSON.stringify(cart),
-        headers:{"Content-Type": "application/json"},  
-      })
-      .then((data) =>data.json())
-      .then((latestCart) => setCart(latestCart))
-      .then(()=>window.alert("order Placed"))
-      .then(()=>navigate('/product'))
-        }
-
-
-  
-
-  return(
-    <section className='cart-list'>
-      <h2>Purchase item</h2>
-       <div className="phone-list-container">
-      {cart.map((mobile)=> <CartItem key={mobile._id} mobile={mobile}/>)}
-      
-    </div>
-    <div className='cart-checkout'>
-      <h1>{currencyFormatter(total)}</h1>
-      <button onClick={()=>CheckOut()}>✔ checkout</button></div>
-    
-    </section>
-   
-  );
-}
-
-function CartItem({mobile}){
-  const [cart, updateCart] = useContext(cartCtx);
-  return(
-    <div className="cart-container">
-      <img src={mobile.img} alt={mobile.model} className='cart-image'/>
-      <div>
-        <h2 className='cart-name'>{mobile.model}</h2>
-        <p className='cart-company'>{mobile.company}</p>
-        
-        <p className='cart-Quantity'><span>price:</span>{currencyFormatter(mobile.price)}</p>
-        
-        <button onClick={()=> updateCart({mobile, action:'decrement'})}>➖</button>  {mobile.qty}  <button onClick={()=> updateCart({mobile, action:'increment'})}>➕</button>
-      </div>
-      <p className='cart-Total'><span>Subtotal:</span>{currencyFormatter(mobile.price * mobile.qty)  }</p>
-      
-    </div>
-  );
-}
-export function MobileDetails() {
-  const [cart, updateCart, setCart] = useContext(cartCtx);
-
-  const { id  } = useParams();
-  const history = useNavigate();
-  const [mobile, setMobile] = useState({});
-
-  useEffect(() => {
-    fetch(`${API_URL}/mobilelist/${id}`,{method:"GET"})
-    .then((data) => data.json())
-    .then((mv) => setMobile(mv))
-  },[id])
- 
-
- 
-  return (
-    <div className="mobile-detail-container">
-      
-      
-      
-        <div className="mobile-specs">
-        <img src={mobile.img} alt={mobile.model} className='mobile-img'/>
-          <div>
-          
-                  <h3 className="mobile-name">{mobile.model}</h3>
-                  <p className="mobile-summary">{mobile.company}</p> 
-            <p className="mobile-summary">{mobile.price}</p>
-            <p className="mobile-summary">The MobileStore Limited, was an Indian telecom and mobile phone retailer, formerly known as "Essar Telecom Retail, Ltd.",[1] The MobileStore currently has over 1000 shops in 150 cities, with its headquarters located in Mumbai. The company is part of the Essar Group.</p>
-
-            <div style={{display:'flex', margin:'20px',gap:'20px',marginRight:'auto'}}>
-            <Button onClick={() => history(-1)} variant="contained" color='error' startIcon={<ArrowBackIcon />}> Back </Button>
-            <Button variant="contained" color='primary' onClick={()=> updateCart({mobile, action:'increment'})}>Add to cart</Button>
-            </div>
-            
-          </div>
-        
-        </div>
-
-   
-   
-    
-
-  </div>
- 
-  );
-}
-
-function Apple(){
-  return(
-    <h2>Apple mobiles</h2>
-  );
-}
 
 export default App;
