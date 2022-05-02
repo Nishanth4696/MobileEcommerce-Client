@@ -1,10 +1,10 @@
 import axios from "axios";
-import { API_URL} from '../../../GlobalConstants'
+
 
 export const userLogin = (reqObj) => async (dispatch) => {
   dispatch({ type: "LOADING", payload: true });
   try {
-    const response = await axios.post(`${API_URL}/api/users/login`, reqObj);
+    const response = await axios.post(`https://ebikestore.herokuapp.com/api/users/login`, reqObj);
     localStorage.setItem("user", JSON.stringify(response.data));
     dispatch({ type: "LOADING", payload: false });
     setTimeout(() => {
@@ -20,11 +20,11 @@ export const userLogin = (reqObj) => async (dispatch) => {
 export const userRegister = (reqObj) => async (dispatch) => {
   dispatch({ type: "LOADING", payload: true });
   try {
-    const response = await axios.post(`${API_URL}/api/users/register`, reqObj);
+    const response = await axios.post(`https://ebikestore.herokuapp.com/api/users/register`, reqObj);
     console.log(response);
     dispatch({ type: "LOADING", payload: false });
     setTimeout(() => {
-      window.location.href = "/login";
+      window.location.href = "/admin/login";
     }, 500);
   } catch (error) {
     console.log(error);
@@ -37,14 +37,14 @@ export const userForgotpass = (reqObj) => async (dispatch) => {
   dispatch({ type: "LOADING", payload: true });
   try {
     const response = await axios.post(
-      `${API_URL}/api/users/forgotpassword`,
+      `https://ebikestore.herokuapp.com/api/users/forgotpassword`,
       reqObj
     );
     console.log(response);
     window.alert("Verification link sent to the registered email");
     dispatch({ type: "LOADING", payload: false });
     setTimeout(() => {
-      window.location.href = "/login";
+      window.location.href = "/admin/login";
     }, 2000);
   } catch (error) {
     console.log(error);
@@ -58,13 +58,13 @@ export const userResetpass = (reqObj) => async (dispatch) => {
   const { userId, token } = reqObj;
   try {
     const response = await axios.post(
-      `${API_URL}/api/users/password-reset/${userId}/${token}`,
+      `https://ebikestore.herokuapp.com/api/users/password-reset/${userId}/${token}`,
       reqObj
     );
     console.log(response);
     dispatch({ type: "LOADING", payload: false });
     setTimeout(() => {
-      window.location.href = "/login";
+      window.location.href = "/admin/login";
     }, 500);
   } catch (error) {
     console.log(error);

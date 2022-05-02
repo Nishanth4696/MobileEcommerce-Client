@@ -1,5 +1,5 @@
 import { API_URL } from '../../GlobalConstants';
-import { Navbar } from '../User/Navbar';
+import { UserNavbar } from '../User/UserNavbar';
 import { useState, useEffect } from "react";
 import { UserPhone } from './UserPhone';
 
@@ -27,7 +27,7 @@ export function UserPhoneList() {
 
   return (
     <div>
-      <Navbar />
+      <UserNavbar />
       <div className="phone-list-container">
 
 

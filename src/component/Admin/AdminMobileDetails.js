@@ -42,7 +42,7 @@ export function AdminMobileDetails() {
           <h3 className="mobile-name">{mobile.model}</h3>
           <p className="mobile-summary">{mobile.company}</p>
           <p className="mobile-summary">{mobile.price}</p>
-          <p className="mobile-summary">The MobileStore Limited, was an Indian telecom and mobile phone retailer, formerly known as "Essar Telecom Retail, Ltd.",[1] The MobileStore currently has over 1000 shops in 150 cities, with its headquarters located in Mumbai. The company is part of the Essar Group.</p>
+          <p className="mobile-summary">{mobile.details}</p>
 
           <div style={{ display: 'flex', margin: '20px', gap: '20px', marginRight: 'auto' }}>
             <Button onClick={() => history(-1)} variant="contained" color='error' startIcon={<ArrowBackIcon />}> Back </Button>

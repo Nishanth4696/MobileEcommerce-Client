@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { userRegister } from "../redux/actions/userActions";
+import { userLogin } from "../../Admin/redux/actions/userActions";
 import { Typography, TextField, Button, IconButton } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { InputAdornment, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import '../../../App.css'
 
-function Register() {
-  const history = useHistory();
+function AdminLogin() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { handleChange, handleSubmit, handleBlur, errors, values, touched } =
     useFormik({
       initialValues: {
-        username: "",
         email: "",
-        phoneno: "",
-        address: "",
         password: "",
       },
       validationSchema: formvalidationSchema,
       onSubmit: (values) => {
-        dispatch(userRegister(values));
+        dispatch(userLogin(values));
         // console.log(values);
       },
     });
@@ -36,18 +34,18 @@ function Register() {
     setText((text) => (text === "Show" ? "Hide" : "Show"));
   };
   return (
-    <div className="registerpage">
+    <div className="loginpage">
       <div className="brand">
         <Typography
           sx={{
             fontSize: { xs: "50px", sm: "60px" },
-            fontFamily: "Aladin",
+
             fontWeight: "bold",
-            color: "#fff",
+            
           }}
           variant="h1"
         >
-          Car Corner
+          Mobile Store
         </Typography>
       </div>
       <div className="formcontainer">
@@ -56,30 +54,14 @@ function Register() {
             <Typography
               variant="h4"
               sx={{
-                fontFamily: "Roboto Condensed",
+                fontFamily: "Bungee",
                 fontSize: { sm: "35px", xs: "28px" },
               }}
             >
-              Register Here
+              Log In
             </Typography>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <TextField
-              variant="outlined"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.username && touched.username}
-              value={values.username}
-              helperText={
-                errors.username && touched.username && errors.username
-              }
-              name="username"
-              id="username"
-              label="userName"
-              placeholder="Enter the userName"
-              fullWidth
-              sx={{ margin: "5px" }}
-            />
             <TextField
               variant="outlined"
               onChange={handleChange}
@@ -95,34 +77,6 @@ function Register() {
               sx={{ margin: "5px" }}
             />
             <TextField
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.phoneno}
-              error={errors.phoneno && touched.phoneno}
-              helperText={errors.phoneno && touched.phoneno && errors.phoneno}
-              name="phoneno"
-              margin="dense"
-              id="phoneno"
-              label="Phone No"
-              variant="outlined"
-              placeholder="Enter your phone no"
-              fullWidth
-            />
-            <TextField
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.address}
-              error={errors.address && touched.address}
-              helperText={errors.address && touched.address && errors.address}
-              name="address"
-              margin="dense"
-              id="address"
-              label="Contact Address"
-              variant="outlined"
-              placeholder="Enter your Address"
-              fullWidth
-            />
-            <TextField
               variant="outlined"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -134,7 +88,7 @@ function Register() {
               name="password"
               id="password"
               label="password"
-              type={visible}
+              
               placeholder="Enter the password"
               fullWidth
               InputProps={{
@@ -150,18 +104,25 @@ function Register() {
               }}
               sx={{ margin: "5px" }}
             />
+            <Button
+              sx={{ marginRight: "20px" }}
+              variant="text"
+              onClick={() => navigate("/admin/forgotpassword")}
+            >
+              Forgot Password?
+            </Button>
             <Button type="submit" variant="contained" color="success">
-              Register
+              Log In
             </Button>
           </div>
           <div style={{ margin: "5px" }}>
-            <label className="account">Already have an Account?</label>
+            <label className="account">Don't have an Account?</label>
             <Button
-              color="success"
+              color="inherit"
               variant="text"
-              onClick={() => history.push("/login")}
+              onClick={() => navigate("/admin/register")}
             >
-              Log In
+              Register
             </Button>
           </div>
         </form>
@@ -170,23 +131,10 @@ function Register() {
   );
 }
 
-export default Register;
-
-const phoneRegExp =
-  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+export default AdminLogin;
 
 const formvalidationSchema = Yup.object({
-  username: Yup.string().required("Please enter your userName"),
   email: Yup.string()
     .email("Please enter the valid email")
-    .required("please enter yor email"),
-  password: Yup.string()
-    .min(8, "Too short password")
-    .required("please fill the password"),
-  phoneno: Yup.string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("Why not fill this phone no 🤯")
-    .min(8, "Please Enter the valid phone number")
-    .max(10, "Please Enter the valid phone number"),
-  address: Yup.string().max(250).required("Please fill the address"),
+    .required("Required Field"),
 });

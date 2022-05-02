@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { userResetpass } from "../redux/actions/userActions";
+import { userLogin } from "../../User/redux/actions/userActions";
 import { Typography, TextField, Button, IconButton } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { InputAdornment, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useParams } from "react-router-dom";
+import '../../../App.css'
 
-function Resetpassword() {
-  const userId = useParams().userId;
-  const token = useParams().token;
+function UserLogin() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { handleChange, handleSubmit, handleBlur, errors, values, touched } =
     useFormik({
       initialValues: {
+        email: "",
         password: "",
-        confirmPassword: "",
-        userId: userId,
-        token: token,
       },
       validationSchema: formvalidationSchema,
       onSubmit: (values) => {
-        dispatch(userResetpass(values));
+        dispatch(userLogin(values));
         // console.log(values);
       },
     });
@@ -36,18 +34,18 @@ function Resetpassword() {
     setText((text) => (text === "Show" ? "Hide" : "Show"));
   };
   return (
-    <div className="resetpage">
+    <div className="loginpage">
       <div className="brand">
         <Typography
           sx={{
             fontSize: { xs: "50px", sm: "60px" },
-            fontFamily: "Aladin",
+
             fontWeight: "bold",
-            color: "#fff",
+            
           }}
           variant="h1"
         >
-         Car Corner
+          Mobile Store
         </Typography>
       </div>
       <div className="formcontainer">
@@ -56,14 +54,28 @@ function Resetpassword() {
             <Typography
               variant="h4"
               sx={{
-                fontFamily: "Roboto Condensed",
+                fontFamily: "Bungee",
                 fontSize: { sm: "35px", xs: "28px" },
               }}
             >
-              Reset Password
+              Log In
             </Typography>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
+            <TextField
+              variant="outlined"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={errors.email && touched.email}
+              value={values.email}
+              helperText={errors.email && touched.email && errors.email}
+              name="email"
+              id="email"
+              label="Email"
+              placeholder="Enter Email"
+              fullWidth
+              sx={{ margin: "5px" }}
+            />
             <TextField
               variant="outlined"
               onChange={handleChange}
@@ -92,38 +104,25 @@ function Resetpassword() {
               }}
               sx={{ margin: "5px" }}
             />
-            <TextField
-              variant="outlined"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.confirmPassword && touched.confirmPassword}
-              value={values.confirmPassword}
-              helperText={
-                errors.confirmPassword &&
-                touched.confirmPassword &&
-                errors.confirmPassword
-              }
-              name="confirmPassword"
-              id="confirmPassword"
-              label="confirm password"
-              type={visible}
-              placeholder="Enter confirm Password"
-              fullWidth
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">
-                    <Tooltip title={text}>
-                      <IconButton onClick={() => visibility()}>
-                        {icon}
-                      </IconButton>
-                    </Tooltip>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ margin: "5px" }}
-            />
+            <Button
+              sx={{ marginRight: "20px" }}
+              variant="text"
+              onClick={() => navigate("/user/forgotpassword")}
+            >
+              Forgot Password?
+            </Button>
             <Button type="submit" variant="contained" color="success">
-              Update password
+              Log In
+            </Button>
+          </div>
+          <div style={{ margin: "5px" }}>
+            <label className="account">Don't have an Account?</label>
+            <Button
+              color="inherit"
+              variant="text"
+              onClick={() => navigate("/user/register")}
+            >
+              Register
             </Button>
           </div>
         </form>
@@ -132,12 +131,10 @@ function Resetpassword() {
   );
 }
 
-export default Resetpassword;
+export default UserLogin;
 
 const formvalidationSchema = Yup.object({
-  password: Yup.string().required("Required Field"),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Password must match"
-  ),
+  email: Yup.string()
+    .email("Please enter the valid email")
+    .required("Required Field"),
 });

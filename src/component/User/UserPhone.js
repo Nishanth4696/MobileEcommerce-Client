@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+
 import { useContext } from "react";
 import { cartCtx, currencyFormatter } from '../../App';
 
@@ -21,27 +19,7 @@ export function UserPhone({ mobile, deleteMobile }) {
 
 
 
-        <IconButton
-          onClick={() => {
-            navigate("/user/editmobile/edit/" + mobile._id);
-
-          }}
-          style={{ marginLeft: "auto" }}
-          className="movie-show-button"
-          aria-label="delete"
-          color="primary"
-        >
-          <EditIcon style={{ fontSize: '35px', marginLeft: 'auto' }} />
-        </IconButton>
-
-        <IconButton
-          onClick={() => deleteMobile(mobile._id)}
-          className="mobile-show-button"
-          aria-label="delete"
-          color="error"
-        >
-          <DeleteIcon style={{ fontSize: '35px' }} />
-        </IconButton>
+        
       </div>
 
     </div>

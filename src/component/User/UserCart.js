@@ -1,10 +1,11 @@
 import { API_URL } from '../../GlobalConstants';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { cartCtx, currencyFormatter } from '../../App';
 import { UserCartItem } from "./UserCartItem";
-import { Navbar } from '../User/Navbar';
+import { UserNavbar } from '../User/UserNavbar';
+import { Paypal } from '../Paypal';
 
 
 
@@ -41,11 +42,11 @@ export function UserCart() {
   };
 
 
-  
+  const [checkout, setCheckout] = useState(false);
 
   return (
     <section className='cart-list'>
-      <Navbar/>
+      <UserNavbar/>
       <h2>Purchase item</h2>
       <div className="phone-list-container">
         {usercart.map((mobile) => <UserCartItem key={mobile._id} mobile={mobile} />)}
@@ -53,7 +54,11 @@ export function UserCart() {
       </div>
       <div className='cart-checkout'>
         <h1>{currencyFormatter(total)}</h1>
-        <button onClick={() => CheckOut()}>✔ checkout</button></div>
+        {checkout ? (<Paypal />) :(
+        <button onClick={() => setCheckout(true)}>✔ checkout</button>
+        
+        )}
+        </div>
 
     </section>
 

@@ -22,6 +22,9 @@ const formValidationSchema= yup.object({
   price:yup
       .number()
       .required("why not fill tis field🎃"),
+  details:yup
+      .string()
+      .required("why not fill tis field🎃"),
  
 })
 
@@ -32,7 +35,7 @@ export function AdminAddMobile() {
 
 
   const formik = useFormik({
-    initialValues: {model:'', img:'', company:'',price:''},
+    initialValues: {model:'', img:'', company:'',price:'',details:''},
     // validate: validateForm,
     validationSchema: formValidationSchema,
     onSubmit: (newMobile) => {
@@ -110,6 +113,17 @@ export function AdminAddMobile() {
         variant="outlined" 
         error={formik.errors.price && formik.touched.price}
         helperText={formik.errors.price && formik.touched.price && formik.errors.price}/>
+
+<TextField
+        id="details"
+        name="details"
+        value={formik.values.details}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        label='Enter the details'       
+        variant="outlined"
+        error={formik.errors.details && formik.touched.details}
+        helperText={formik.errors.details && formik.touched.details && formik.errors.details} />
         
 
 

@@ -13,11 +13,11 @@ const LandingPage = () => {
             <div><img className="logoimg" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBRsNhL3GuNWxIdJXyotvCLNPeMeVf1KEL4g&usqp=CAU' alt=""/> </div>
             <div className="navlist-container">
              
-              <Link to="/user" style={{textDecoration:'none'}}>
+              <Link to="/user/login" style={{textDecoration:'none'}}>
               <div ><img className="loginaction" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnrAZ-4LY4PUV992QkJ8p1nPw7ab-dnHDjOw&usqp=CAU' alt=""/></div> <div>User</div>
               </Link>
            
-              <Link to="/login" style={{textDecoration:'none'}}>
+              <Link to="/admin/login" style={{textDecoration:'none'}}>
               <div><img className="loginaction" src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBkmpxa41SDqTH1fkEuYMdIl-rHQtuxulBqQ&usqp=CAU' alt=""/></div>
               <div >Admin </div>
               </Link>

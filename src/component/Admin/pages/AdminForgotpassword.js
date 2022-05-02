@@ -1,11 +1,11 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { userForgotpass } from "../redux/actions/userActions";
+import { userForgotpass } from "../../Admin/redux/actions/userActions";
 import { Typography, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-function Forgotpassword() {
+function AdminForgotpassword() {
   const dispatch = useDispatch();
   const { handleChange, handleSubmit, handleBlur, errors, values, touched } =
     useFormik({
@@ -25,12 +25,12 @@ function Forgotpassword() {
           sx={{
             fontSize: { xs: "50px", sm: "60px" },
             fontFamily: "Aladin",
-            fontWeight: "bold",
-            color: "#fff",
+            fontWeight: "bold"
+            
           }}
           variant="h1"
         >
-          CAR CORNER
+          Mobile Store
         </Typography>
       </div>
       <div className="formcontainer">
@@ -81,7 +81,7 @@ function Forgotpassword() {
   );
 }
 
-export default Forgotpassword;
+export default AdminForgotpassword;
 
 const formvalidationSchema = Yup.object({
   email: Yup.string()

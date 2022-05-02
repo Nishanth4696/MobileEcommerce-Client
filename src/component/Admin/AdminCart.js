@@ -5,6 +5,8 @@ import { useContext } from "react";
 import { cartCtx, currencyFormatter } from '../../App';
 import { AdminCartItem } from "./AdminCartItem";
 import { Navbar } from './Navbar';
+import { useState } from 'react';
+import { Paypal } from '../Paypal';
 
 
 
@@ -41,7 +43,7 @@ export function AdminCart() {
   };
 
 
-  
+  const [checkout, setCheckout] = useState(false);
 
   return (
     <section className='cart-list'>
@@ -53,7 +55,10 @@ export function AdminCart() {
       </div>
       <div className='cart-checkout'>
         <h1>{currencyFormatter(total)}</h1>
-        <button onClick={() => CheckOut()}>✔ checkout</button></div>
+        {checkout ? (<Paypal />) :(
+        <button onClick={() => setCheckout(true)}>✔ checkout</button>
+        
+        )}</div>
 
     </section>
 
