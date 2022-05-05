@@ -9,6 +9,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import '../../../App.css'
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 function UserLogin() {
   const navigate = useNavigate();
@@ -58,7 +59,8 @@ function UserLogin() {
                 fontSize: { sm: "35px", xs: "28px" },
               }}
             >
-              Log In
+              Log In&nbsp;
+           <a href="https://github.com/Nishanth4696/MobileEcommerce-Client/blob/master/README.md" target="_blank"> <IconButton ><VpnKeyIcon /></IconButton></a>
             </Typography>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -115,16 +117,7 @@ function UserLogin() {
               Log In
             </Button>
           </div>
-          <div style={{ margin: "5px" }}>
-            <label className="account">Don't have an Account?</label>
-            <Button
-              color="inherit"
-              variant="text"
-              onClick={() => navigate("/user/register")}
-            >
-              Register
-            </Button>
-          </div>
+          
         </form>
       </div>
     </div>
