@@ -1,10 +1,10 @@
 # Deployment Links
 
-<a href="https://invoicejet-client.herokuapp.com/">https://onlinemobilestore.netlify.app/ </a>
+<a href="https://onlinemobilestore.netlify.app/">https://onlinemobilestore.netlify.app/ </a>
 
-<p>Frontend Repo <a href="https://github.com/Preethi-ST/Invoicejet-Client">https://github.com/Nishanth4696/MobileEcommerce-Client </a></p>
+<p>Frontend Repo <a href="https://github.com/Nishanth4696/MobileEcommerce-Client">https://github.com/Nishanth4696/MobileEcommerce-Client </a></p>
 
-<p>Backend Repo <a href="https://github.com/Preethi-ST/Invoicejet-Server">https://github.com/Nishanth4696/b28wd-node </a></p>
+<p>Backend Repo <a href="https://github.com/Nishanth4696/b28wd-node">https://github.com/Nishanth4696/b28wd-node </a></p>
 
 
 ### `Login's to access application`
