@@ -117,6 +117,16 @@ function UserLogin() {
               Log In
             </Button>
           </div>
+          <div style={{ margin: "5px" }}>
+            <label className="account">Don't have an Account?</label>
+            <Button
+              color="info"
+              variant="text"
+              onClick={() => navigate("/user/register")}
+            >
+              Register
+            </Button>
+          </div>
           
         </form>
       </div>
